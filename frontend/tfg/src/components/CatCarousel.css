@@ -1,0 +1,13 @@
+/* CatCarousel.css */
+.cat-carousel {
+    max-width: 100%;
+    margin: auto;
+  }
+  
+  .cat-carousel img {
+    width: 100%;
+    height: auto; /* O establece una altura fija si lo prefieres */
+  }
+  
+  /* Añadir más estilos específicos para tu CatCarousel aquí */
+  
