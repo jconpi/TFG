@@ -23,17 +23,21 @@ export const AdminUsers = () => {
             try {
                 const res = await axiosInstance.get("/admin/checkAdminStatus");
                 const data = res.data;
-                setIsAdmin(data.admin)
-                if (!isAdmin) {
-        return <Navigate to="/" />;
-    }
+                setIsAdmin(data.admin);
+                if(isAdmin){
+                    getUsers();
+                }
             } catch (error) {
                 console.error("Error checking admin status:", error);
-            }
+            } 
         };
-
         checkAdminStatus();
     }, []);
+
+    if (!isAdmin) {
+        return <Navigate to="/" />;
+    }
+
 
     // Si el usuario no es un administrador, redirige a la página principal
     
@@ -96,10 +100,6 @@ export const AdminUsers = () => {
             console.error("Error getting users:", error);
         }
     }
-
-    useEffect(() => {
-        getUsers();
-    }, [])
 
     
     const editUser = async (id) => {

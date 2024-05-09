@@ -8,13 +8,13 @@ const Header = ({ onToggleCart, cartItemCount, isLoggedIn, onLogin, onLogout }) 
   return (
     <header className="header">
       <div className="logo">
-        {/* Incluiría aquí el logo si tienes uno */}
+        {/* Incluiría aquí el logo */}
         <Link to="/">Adoptus</Link>
       </div>
       <nav>
         <ul>
           <li><Link to="/">Inicio</Link></li>
-          <li><Link to="/gatitos">Gatitos</Link></li>
+          <li><Link to="/cats">Gatitos</Link></li>
           <li><Link to="/cafes">Cafés</Link></li>
           {isLoggedIn ? (
             <>

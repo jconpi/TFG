@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axiosInstance from "./Axios";
 
 const API = process.env.REACT_APP_API;
@@ -17,6 +17,15 @@ export const CatsPage = () => {
         }
     }
 
+    const setCat = async (id) => {
+        try {
+            localStorage.setItem('cat_id', id);
+        } catch (error) {
+            console.error("Error:", error)
+        }
+    }
+
+
     useEffect(() => {
         getCats();
     }, [])
@@ -30,7 +39,9 @@ export const CatsPage = () => {
                 <h1>{cat.name}</h1>
                 <h4>Edad: {cat.age}</h4>
                 <p>{cat.description}</p>
-                <button>Adoptar</button>
+                <Link className="btn btn-secondary btn-block" onClick={e => setCat(cat.cat_id)} to={`/cat/${cat.cat_id}`}>
+                    Más Info
+                </Link>
             </div>
         ))}
         </div>

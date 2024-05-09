@@ -23,21 +23,21 @@ export const AdminCats = () => {
         const checkAdminStatus = async () => {
             try {
                 const res = await axiosInstance.get("/admin/checkAdminStatus");
-                const data = res.data;  
-                setIsAdmin(data.admin)
-                if (!isAdmin) {
-                    return <Navigate to="/" />;
+                const data = res.data;
+                setIsAdmin(data.admin);
+                if(isAdmin){
+                    getCats();
                 }
             } catch (error) {
                 console.error("Error checking admin status:", error);
-            }
+            } 
         };
-
         checkAdminStatus();
     }, []);
 
-    // Si el usuario no es un administrador, redirige a la página principal
-    
+    if (!isAdmin) {
+        return <Navigate to="/" />;
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -92,9 +92,7 @@ export const AdminCats = () => {
         }
     }
 
-    useEffect(() => {
-        getCats();
-    }, [])
+    
 
     
     const editCat = async (id) => {

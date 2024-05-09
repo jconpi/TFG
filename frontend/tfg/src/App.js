@@ -19,6 +19,7 @@ import Admin from "./Admin.js"
 import { AdminUsers } from "./AdminUsers.js"
 import AdminCats from "./AdminCats.js"
 import CatsPage from "./CatsPage.js";
+import CatPage from "./CatPage.js";
 
 
 function App() {
@@ -255,6 +256,7 @@ function App() {
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/users" element={<AdminUsers />} />
             <Route path="/admin/cats" element={<AdminCats />} />
+            <Route path="/cat/:id" element={<CatPage />} />
           </Routes>
         </main>
         {/* Muestra condicionalmente ShoppingCart basado en isCartVisible */}

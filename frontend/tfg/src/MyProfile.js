@@ -4,7 +4,6 @@ import axiosInstance from "./Axios";
 
 function MyProfile() {
     const [userData, setUserData] = useState(null);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -13,17 +12,22 @@ function MyProfile() {
     useEffect(() => {
         const fetchProfileData = async () => {
             try {
-                const response = await axiosInstance.get("/my-profile");
-                setUserData(response.data);
-                setLoading(false);
+                const res = await axiosInstance.get("/my-profile");
+                const data = res.data;
+                setUserData(data);
             } catch (error) {
                 setError("Error al obtener el perfil del usuario.");
-                setLoading(false);
             }
         };
 
         fetchProfileData();
     }, []);
+
+    
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    if (!isLoggedIn) {
+        return <Navigate to="/" />;
+    }
 
     const handleChangePassword = async () => {
         if (newPassword !== confirmPassword) {
