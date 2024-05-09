@@ -1,9 +1,11 @@
 import os
 from flask import Flask, jsonify, request, session, redirect, url_for, send_from_directory
 from flask_pymongo import PyMongo, ObjectId
-from flask_cors import CORS
+from flask_cors import CORS 
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
+from functools import wraps
+
 
 app = Flask(__name__)
 
@@ -17,6 +19,15 @@ app.config['UPLOAD_FOLDER'] = '/home/jeremy/Documents/TFG/frontend/tfg/src/image
 
 db = mongo.db.users
 cat_db = mongo.db.cats
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'email' not in session:
+            return jsonify({'error': 'Acceso no autorizado. Por favor inicia sesión.'}), 401
+        
+        return f(*args, **kwargs)
+    return decorated_function
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -67,7 +78,6 @@ def login():
 
 @app.route('/my-profile', methods=['GET'])
 def my_profile():
-    print(session)
     if 'email' in session:
         user = db.find_one({'email': session['email']})
 
@@ -110,7 +120,24 @@ def change_password():
 
     return jsonify({'message': 'Contraseña cambiada exitosamente'}), 200
 
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        # Verificar si el usuario está autenticado
+        if 'email' not in session:
+            return jsonify({'error': 'Acceso no autorizado. Por favor inicia sesión.'}), 401
+        
+        # Verificar si el usuario tiene permisos de administrador
+        user = db.find_one({'email': session['email']})
+        if not user or not user.get('admin'):
+            return jsonify({'error': 'Acceso denegado. Se requieren permisos de administrador.'}), 403
+        
+        # Si pasa las verificaciones, permitir el acceso a la ruta protegida
+        return f(*args, **kwargs)
+    return decorated_function
+
 @app.route('/admin/users', methods=['GET'])
+@admin_required
 def get_users():
     users = []
     for doc in db.find():
@@ -125,6 +152,7 @@ def get_users():
     return jsonify(users)
 
 @app.route('/admin/user/<id>', methods=['GET'])
+@admin_required
 def getUser(id):
     user = db.find_one({'_id': ObjectId(id)})
 
@@ -137,6 +165,7 @@ def getUser(id):
     })
 
 @app.route('/admin/users/<id>', methods=['DELETE'])
+@admin_required
 def deleteUser(id):
     db.delete_one({'_id': ObjectId(id)})
     return jsonify({'msg': 'User deleted'})
@@ -154,6 +183,7 @@ def updateUser(id):
     return jsonify({'msg': 'User Updated'})
 
 @app.route('/admin/users', methods=['POST'])
+@admin_required
 def createUser():
     data = request.json
 
@@ -184,10 +214,12 @@ def createUser():
 def get_admin_status():
     if 'email' in session:
         user = db.find_one({'email': session['email']})
-
-        return jsonify({
-            'admin': user['admin']
-        })
+        if user:
+            return jsonify({'admin': user.get('admin', False)})
+        else:
+            return jsonify({'admin': False})
+    else:
+        return jsonify({'admin': False})
     
 #CRUD CATS
     
@@ -196,6 +228,7 @@ def get_image(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route('/admin/cats', methods=['POST'])
+@admin_required
 def create_cat():
     image_file = request.files['image_url']
 
@@ -217,6 +250,7 @@ def create_cat():
         return jsonify({'msg': 'Cat created successfully'})
 
 @app.route('/admin/cats', methods=['GET'])
+@admin_required
 def get_admin_cats():
     
     cats = []  
@@ -238,6 +272,7 @@ def get_admin_cats():
     return jsonify(cats)
 
 @app.route('/admin/cat/<id>', methods=['GET'])
+@admin_required
 def get_cat(id):
     cat = cat_db.find_one({'_id': ObjectId(id)})
 
@@ -250,11 +285,13 @@ def get_cat(id):
     })
 
 @app.route('/admin/cat/<id>', methods=['DELETE'])
+@admin_required
 def delete_cat(id):
     cat_db.delete_one({'_id': ObjectId(id)})
     return jsonify({'msg': 'Cat deleted'})
 
 @app.route('/admin/cat/<id>', methods=['PUT'])
+@admin_required
 def update_cat(id):
     cat_db.update_one({'_id': ObjectId(id)}, {'$set': {
         'name': request.form['name'],
@@ -274,7 +311,7 @@ def get_cats():
         image_url = url_for('get_image', filename=image_filename)
         
         cats.append({
-            '_id': cat_id,
+            'cat_id': cat_id,
             'name': doc['name'],
             'description': doc['description'],
             'age': doc['age'],
@@ -284,6 +321,23 @@ def get_cats():
         print(image_url)
 
     return jsonify(cats)
+
+@app.route('/cat/<id>', methods=['GET'])
+def set_cat(id):
+    print(id)
+    cat = cat_db.find_one({'_id': ObjectId(id)})
+    image_filename = cat['image_url']
+    image_url = url_for('get_image', filename=image_filename)
+
+    return jsonify({
+        '_id': str(ObjectId(cat['_id'])),
+        'image_url': image_url,
+        'name': cat['name'],
+        'description': cat['description'],
+        'age': cat['age'],
+        'breed': cat['breed']
+    })
+
 
 if __name__ == "__main__":
     app.run(debug=True)
