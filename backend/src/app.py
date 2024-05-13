@@ -5,7 +5,7 @@ from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from functools import wraps
-
+import time
 
 app = Flask(__name__)
 
@@ -19,6 +19,7 @@ app.config['UPLOAD_FOLDER'] = '/home/jeremy/Documents/TFG/frontend/tfg/src/image
 
 db = mongo.db.users
 cat_db = mongo.db.cats
+cafe_db = mongo.db.cafe
 
 def login_required(f):
     @wraps(f)
@@ -66,10 +67,12 @@ def login():
         session['user_id'] = str(user['_id'])
         session['name'] = str(user['name'])
         session['email'] = str(user['email'])
+        session['admin'] = str(user['admin'])
         return jsonify({
             'id': session['user_id'],
             'email': session['email'],
             'name': session['name'],
+            'admin': session['admin'],
             'message': 'Login successful',
         }), 200
     else:
@@ -183,7 +186,6 @@ def updateUser(id):
     return jsonify({'msg': 'User Updated'})
 
 @app.route('/admin/users', methods=['POST'])
-@admin_required
 def createUser():
     data = request.json
 
@@ -228,7 +230,6 @@ def get_image(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route('/admin/cats', methods=['POST'])
-@admin_required
 def create_cat():
     image_file = request.files['image_url']
 
@@ -291,13 +292,26 @@ def delete_cat(id):
     return jsonify({'msg': 'Cat deleted'})
 
 @app.route('/admin/cat/<id>', methods=['PUT'])
-@admin_required
 def update_cat(id):
+
+    if 'image_url' in request.files:
+        image_file = request.files['image_url']
+        filename = secure_filename(image_file.filename)
+        image_filename = f"{ObjectId()}.{filename.split('.')[-1]}"
+        image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], image_filename))
+        image_url = str(image_filename)
+    else:
+        cat = cat_db.find_one({'_id': ObjectId(id)})
+        cat_image = cat['image_url']
+        print(cat_image)
+        image_url = str(cat_image)
+        
     cat_db.update_one({'_id': ObjectId(id)}, {'$set': {
         'name': request.form['name'],
         'description': request.form['description'],
         'age': request.form['age'],
-        'breed': request.form['breed']
+        'breed': request.form['breed'],
+        'image_url': image_url
     }})
     return jsonify({'msg': 'User Updated'})
 
@@ -337,6 +351,104 @@ def set_cat(id):
         'age': cat['age'],
         'breed': cat['breed']
     })
+@app.route('/admin/cafes', methods=['POST'])
+def create_cafe():
+    image_file = request.files['image_url']
+
+    if image_file:
+        filename = secure_filename(image_file.filename)
+        image_filename = f"{ObjectId()}.{filename.split('.')[-1]}"
+        image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], image_filename))
+
+        cafe_db.insert_one({
+            'cafe_id': str(ObjectId()),  # Generar automáticamente un nuevo ObjectId para cafe_id
+            'name': request.form['name'],
+            'description': request.form['description'],
+            'price': request.form['price'],
+            'image_url': str(image_filename)
+        })
+
+        return jsonify({'msg': 'Coffee created successfully'})
+
+@app.route('/admin/cafes', methods=['GET'])
+@admin_required
+def get_admin_cafes():
+    
+    cafes = []  
+    for doc in cafe_db.find():
+        cafe_id = str(ObjectId(doc['_id']))
+        image_filename = doc['image_url']
+        image_url = url_for('get_image', filename=image_filename)
+        
+        cafes.append({
+            '_id': cafe_id,
+            'name': doc['name'],
+            'description': doc['description'],
+            'price': doc['price'],
+            'image_url': image_url
+        })
+
+    return jsonify(cafes)
+
+@app.route('/admin/cafe/<id>', methods=['GET'])
+@admin_required
+def get_cafe(id):
+    cafe = cafe_db.find_one({'_id': ObjectId(id)})
+
+    return jsonify({
+        '_id': str(ObjectId(cafe['_id'])),
+        'name': cafe['name'],
+        'description': cafe['description'],
+        'price': cafe['price'],
+    })
+
+@app.route('/admin/cafe/<id>', methods=['DELETE'])
+@admin_required
+def delete_cafe(id):
+    cafe_db.delete_one({'_id': ObjectId(id)})
+    return jsonify({'msg': 'Cafe deleted'})
+
+@app.route('/admin/cafe/<id>', methods=['PUT'])
+@admin_required
+def update_cafe(id):
+    if 'image_url' in request.files:
+        image_file = request.files['image_url']
+        filename = secure_filename(image_file.filename)
+        image_filename = f"{ObjectId()}.{filename.split('.')[-1]}"
+        image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], image_filename))
+        image_url = str(image_filename)
+    else:
+        cafe = cafe_db.find_one({'_id': ObjectId(id)})
+        cafe_image = cafe['image_url']
+        image_url = str(cafe_image)
+
+    cafe_db.update_one({'_id': ObjectId(id)}, {'$set': {
+        'name': request.form['name'],
+        'description': request.form['description'],
+        'price': request.form['price'],
+        'image_url': image_url
+    }})
+    return jsonify({'msg': 'Cafe Updated'})
+
+@app.route('/cafes', methods=['GET'])
+def get_coffees():
+    
+    cafes = []  
+    for doc in cafe_db.find():
+        cafe_id = str(ObjectId(doc['_id']))
+        image_filename = doc['image_url']
+        image_url = url_for('get_image', filename=image_filename)
+        
+        cafes.append({
+            'cafe_id': cafe_id,
+            'name': doc['name'],
+            'description': doc['description'],
+            'image': image_url,
+            'price': doc['price'],
+        })
+        print(image_url)
+
+    return jsonify(cafes)
 
 
 if __name__ == "__main__":
