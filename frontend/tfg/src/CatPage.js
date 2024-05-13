@@ -26,6 +26,13 @@ export const CatPage = () => {
         getCat();
     }, []);
 
+    const setCatID = async (id) => {
+        try {
+            localStorage.setItem('cat_id', id);
+        } catch (error) {
+            console.error("Error:", error)
+        }
+    }
 
 
     return (
@@ -42,6 +49,9 @@ export const CatPage = () => {
                     <h1>{cat.name}</h1>
                     <h4>Edad: {cat.age}</h4>
                     <p>{cat.description}</p>
+                    <Link className="btn btn-secondary btn-block" onClick={e => setCat(cat.cat_id)} to={`/cats/form`}>
+                        Adóptame
+                    </Link>
                 </>
             )}
         </div>

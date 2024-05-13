@@ -8,13 +8,24 @@ function MyProfile() {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [passwordError, setPasswordError] = useState(null);
+    const [userIsAdmin, setUserIsAdmin] = useState(false)
 
     useEffect(() => {
+        const storedUserData = localStorage.getItem('userData');
+
         const fetchProfileData = async () => {
             try {
                 const res = await axiosInstance.get("/my-profile");
                 const data = res.data;
                 setUserData(data);
+                const userData = JSON.parse(storedUserData);
+                const admin = userData.admin
+                if (admin === 'True') {
+                    setUserIsAdmin(true)
+                } else {
+                    setUserIsAdmin(false)
+                }
+
             } catch (error) {
                 setError("Error al obtener el perfil del usuario.");
             }
@@ -79,9 +90,7 @@ function MyProfile() {
                             {passwordError && <p className="text-danger">{passwordError}</p>}
                             <div className="d-flex justify-content-sm-between">
                                 <button className="btn btn-primary" onClick={handleChangePassword}>Guardar contraseña</button>
-                                <Link className="btn btn-secondary btn-block" to="/admin">
-                                    Admin
-                                </Link>
+                                {userIsAdmin && <Link className="btn btn-secondary btn-block" to="/admin">Admin</Link>}
                             </div>
                         </div>
                     </div>

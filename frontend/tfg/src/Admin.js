@@ -26,7 +26,7 @@ function AdminPage() {
             <div className="d-flex justify-content-between">
                 <Link to="/admin/cats" className="btn btn-primary">Administrar Gatos</Link>
                 <Link to="/admin/users" className="btn btn-primary">Administrar Usuarios</Link>
-                <Link to="/admin/coffees" className="btn btn-primary">Administrar Cafés</Link>
+                <Link to="/admin/cafes" className="btn btn-primary">Administrar Cafés</Link>
             </div>
         </div>
     );

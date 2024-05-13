@@ -6,7 +6,7 @@ import CatCarousel from "./CatCarousel";
 import ShoppingCart from "./ShoppingCart";
 import Footer from "./Footer";
 import AdoptionForm from "./AdoptionForm";
-import CoffeeList from "./CoffeeList"; // Asegúrate de haber creado este componente
+import Coffees from "./Coffees"; // Asegúrate de haber creado este componente
 import "./App.css";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -18,9 +18,11 @@ import MyProfile from "./MyProfile.js"
 import Admin from "./Admin.js"
 import { AdminUsers } from "./AdminUsers.js"
 import AdminCats from "./AdminCats.js"
+import AdminCafes from "./AdminCafes.js"
 import CatsPage from "./CatsPage.js";
 import CatPage from "./CatPage.js";
-
+import Paypal from "./Paypal.js"
+import CatsForm from "./CatsForm.js"
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -248,7 +250,7 @@ function App() {
             <Route path="/adoptar" element={<AdoptionForm />} />
             <Route
               path="/cafes"
-              element={<CoffeeList cafes={cafes} onAddToCart={addToCart} />}
+              element={<Coffees />}
             />
             <Route path="/login" element={<Login onLogin={handleLogin} />} />
             <Route path="/register" element={<Register />} />
@@ -256,7 +258,10 @@ function App() {
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/users" element={<AdminUsers />} />
             <Route path="/admin/cats" element={<AdminCats />} />
+            <Route path="/admin/cafes" element={<AdminCafes />} />
             <Route path="/cat/:id" element={<CatPage />} />
+            <Route path="/paypal" element={<Paypal />} />
+            <Route path="/cats/form" element={<CatsForm />} />
           </Routes>
         </main>
         {/* Muestra condicionalmente ShoppingCart basado en isCartVisible */}

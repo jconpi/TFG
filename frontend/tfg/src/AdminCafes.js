@@ -4,21 +4,19 @@ import axiosInstance from "./Axios";
 
 const API = process.env.REACT_APP_API;
 
-export const AdminCats = () => {
+export const AdminCafes = () => {
     const [isAdmin, setIsAdmin] = useState(true); 
     
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
-    const [age, setAge] = useState('')
-    const [breed, setBreed] = useState('')
+    const [price, setPrice] = useState('')
     const [file, setFile] = useState(null)
     const [error, setError] = useState("");
 
     const [editing, setEditing] = useState(false)
     const [id, setID] = useState('')
 
-    const [cats, setCats] = useState([])
-
+    const [cafes, setCafes] = useState([])
     const [editingImage, setEditingImage] = useState(false)
 
     useEffect(() => {
@@ -28,7 +26,7 @@ export const AdminCats = () => {
                 const data = res.data;
                 setIsAdmin(data.admin);
                 if(isAdmin){
-                    getCats();
+                    getCafes();
                 }
             } catch (error) {
                 console.error("Error checking admin status:", error);
@@ -48,27 +46,26 @@ export const AdminCats = () => {
             const formData = new FormData();
             formData.append('name', name);
             formData.append('description', description);
-            formData.append('age', age);
-            formData.append('breed', breed);
+            formData.append('price', price);
+            formData.append('image_url', file);
             if (editingImage === true){
-                console.log("Append image")
                 formData.append('image_url', file);
             }
 
             if (!editing) {
-                const res = await fetch(`${API}/admin/cats`, {
+                const res = await fetch(`${API}/admin/cafes`, {
                     method: 'POST',
                     body: formData
                 });
                 const data = await res.json();
 
                 if (res.ok){
-                    console.log("Gato creado")
+                    console.log("Cafe creado")
                 } else {
                     setError(`Hubo un error. ${data.error}`);
                 }
             } else {
-                const res = await axiosInstance.put(`/admin/cat/${id}`, formData);
+                const res = await axiosInstance.put(`/admin/cafe/${id}`, formData);
                 console.log(res.data);
                 setEditing(false);
                 setID('');
@@ -76,59 +73,52 @@ export const AdminCats = () => {
             }
             
             await new Promise(resolve => setTimeout(resolve, 3000));
-            await getCats();
+            await getCafes();
 
             setName('');
             setDescription('');
-            setAge('');
-            setBreed('');
+            setPrice('');
             setFile(null);
         } catch (error) {
             console.error("Error:", error);
         }
     }
 
-    const getCats = async () => {
+    const getCafes = async () => {
         try {
-            const res = await axiosInstance.get(`/admin/cats`);
-            setCats(res.data);
-            console.log(res.data);
+            const res = await axiosInstance.get(`/admin/cafes`);
+            setCafes(res.data);
         } catch (error) {
-            console.error("Error getting cats:", error);
+            console.error("Error getting cafes:", error);
         }
     }
-
-
     
-    const editCat = async (id) => {
+    const editCafe = async (id) => {
         try {
-            const res = await axiosInstance.get(`/admin/cat/${id}`);
+            const res = await axiosInstance.get(`/admin/cafe/${id}`);
             const data = res.data;
             setEditing(true);
             setID(data._id);
             setName(data.name);
             setDescription(data.description);
-            setAge(data.age);
-            setBreed(data.breed);
+            setPrice(data.price);
         } catch (error) {
-            console.error("Error editing cat:", error);
+            console.error("Error editing cafe:", error);
         }
     }
 
-    const deleteCat = async (id) => {
-        const catResponse = window.confirm('¿Estás seguro de que quieres eliminarlo?')
-
-        if(catResponse) {
+    const deleteCafe = async (id) => {
+        const cafeResponse = window.confirm('¿Estás seguro de que quieres eliminarlo?')
+        if(cafeResponse) {
             try {
-                const res = await axiosInstance.delete(`/admin/cat/${id}`);
+                const res = await axiosInstance.delete(`/admin/cafe/${id}`);
                 console.log(res.data);
-                await getCats();
+                await getCafes();
             } catch (error) {
-                console.error("Error deleting cat:", error);
+                console.error("Error deleting cafe:", error);
             }
         }
     }
-
     return (
         <div className="row">
             <div className="col-md-4">
@@ -156,19 +146,10 @@ export const AdminCats = () => {
                     <div className="form-group">
                         <input 
                             type="text" 
-                            onChange={e => setAge(e.target.value)} 
-                            value={age} 
+                            onChange={e => setPrice(e.target.value)} 
+                            value={price} 
                             className="form-control"
-                            placeholder="Edad"
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input 
-                            type="text" 
-                            onChange={e => setBreed(e.target.value)} 
-                            value={breed} 
-                            className="form-control"
-                            placeholder="Raza"
+                            placeholder="Precio"
                         />
                     </div>
                     <div className="form-group">
@@ -177,8 +158,7 @@ export const AdminCats = () => {
                             onChange={e => {
                                 setFile(e.target.files[0])
                                 setEditingImage(true)
-                            }
-                            }
+                            }}
                             className="form-control"
                         />
                     </div>
@@ -194,29 +174,27 @@ export const AdminCats = () => {
                             <th>Imagen</th>
                             <th>Nombre</th>
                             <th>Descripción</th>
-                            <th>Edad</th>
-                            <th>Raza</th>
+                            <th>Precio</th>
                             <th>Operaciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {cats.map(cat => (
-                                <tr key={cat._id}>
-                                    <td><img src={require(`.${cat.image_url}`)}  width="100" height="100" alt="gato"/></td>  
-                                    <td>{cat.name}</td>
-                                    <td>{cat.description}</td>
-                                    <td>{cat.age}</td>
-                                    <td>{cat.breed}</td>
+                        {cafes.map(cafe => (
+                                <tr key={cafe._id}>
+                                    <td><img src={require(`.${cafe.image_url}`)}  width="100" height="100" alt="cafe"/></td>  
+                                    <td>{cafe.name}</td>
+                                    <td>{cafe.description}</td>
+                                    <td>{cafe.price}</td>
                                     <td>
                                         <button 
                                             className="btn btn-secondary btn-sm btn-block"
-                                            onClick={e => editCat(cat._id)}
+                                            onClick={e => editCafe(cafe._id)}
                                         >
                                             Editar
                                         </button>
                                         <button 
                                             className="btn btn-danger btn-sm btn-block"
-                                            onClick={(e) => deleteCat(cat._id)}
+                                            onClick={(e) => deleteCafe(cafe._id)}
                                         >
                                             Eliminar
                                         </button>
@@ -231,4 +209,4 @@ export const AdminCats = () => {
     )
 }
 
-export default AdminCats;
+export default AdminCafes;
