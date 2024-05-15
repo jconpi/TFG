@@ -16,10 +16,15 @@ CORS(app, supports_credentials=True)
 app.config['SECRET_KEY'] = "1414zZ"  # Clave secreta para la sesión
 app.config['SESSION_COOKIE_SECURE'] = True
 app.config['UPLOAD_FOLDER'] = '/home/jeremy/Documents/TFG/frontend/tfg/src/images'
-
+app.static_folder = '/home/jeremy/Documents/TFG/frontend/tfg/src/components'
 db = mongo.db.users
 cat_db = mongo.db.cats
 cafe_db = mongo.db.cafe
+
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    root_dir = os.path.dirname(os.getcwd(), 'frontend')
+    return send_from_directory(os.path.join(root_dir, 'components'), filename)
 
 def login_required(f):
     @wraps(f)
