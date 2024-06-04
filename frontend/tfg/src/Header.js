@@ -1,21 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './components/Header.css'; // Asegúrate de que la ruta al archivo CSS es correcta
+import './components/Header.css'; // Verifica la ruta al archivo CSS
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import logo from './images/catcafe.jpeg'; // Verifica que la ruta al logo sea correcta
 
 const Header = ({ onToggleCart, cartItemCount, isLoggedIn, onLogin, onLogout }) => {
   return (
     <header className="header">
-      <div className="logo">
-        {/* Incluiría aquí el logo */}
-        <Link to="/">Adoptus</Link>
+      <div className="header-logo">
+        <img src={logo} alt="CATCAFE Logo" className="logo-image" /> CATCAFE
       </div>
       <nav>
-        <ul>
+        <ul className="nav-links">
           <li><Link to="/">Inicio</Link></li>
-          <li><Link to="/cats">Gatitos</Link></li>
+          <li><Link to="/cats">Gatos</Link></li>
           <li><Link to="/cafes">Cafés</Link></li>
+          <li><Link to="/contacto">Contacto</Link></li>
           {isLoggedIn ? (
             <>
               <li><Link to="/my-profile"><FontAwesomeIcon icon={faUser}/></Link></li>
@@ -26,10 +27,13 @@ const Header = ({ onToggleCart, cartItemCount, isLoggedIn, onLogin, onLogout }) 
           )}
         </ul>
       </nav>
-      <div className="cart-icon" onClick={onToggleCart}>
-          🛒 {cartItemCount > 0 && <span>({cartItemCount})</span>}
+      <div className="header-actions">
+        <div className="divider"></div>
+        <a href="/donate" className="donate-button">COLABORA</a>
       </div>
-      
+      <div className="cart-icon" onClick={onToggleCart}>
+        🛒 {cartItemCount > 0 && <span>({cartItemCount})</span>}
+      </div>
     </header>
   );
 };

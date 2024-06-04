@@ -1,18 +1,70 @@
-/* Footer.css */
-.footer {
-    background-color: #333;
-    color: white;
-    padding: 1rem;
+/* src/Footer.css */
+
+footer {
+    background: #eaeaea; /* Color claro para el fondo */
+    color: #003049; /* Texto oscuro para el contenido */
+    padding: 2rem 0; /* Ajusta el espacio superior e inferior */
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: space-around; /* Espacio entre columnas */
+    align-items: flex-start;
+    flex-wrap: wrap;
+    position: relative;
   }
   
-  .footer a {
-    color: white;
+  .footer-column {
+    flex: 1;
+    min-width: 200px; /* Ancho mínimo para que las columnas no sean muy estrechas */
+    margin: 0 1rem; /* Espacio entre las columnas */
+  }
+  
+  .footer-column h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #254151;
+  }
+  
+  .footer-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .footer-column ul li {
+    margin-bottom: 0.75rem;
+  }
+  
+  .footer-column a {
     text-decoration: none;
+    color: #254151;
+    transition: color 0.3s;
   }
   
-  .footer a:hover {
-    text-decoration: underline;
+  .footer-column a:hover {
+    color: #f04e50; /* Color para enlaces activos */
   }
+  
+  .collaborate-button {
+    background-color: #003049; /* Botón oscuro para contrastar */
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 1rem;
+    transition: background-color 0.3s;
+  }
+  
+  .collaborate-button:hover {
+    background-color: #001f3f; /* Más oscuro al pasar el ratón */
+  }
+  
+  .footer-copyright {
+    background-color: #003049; /* Fondo oscuro para copyright */
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 1rem;
+  }
+  
+  

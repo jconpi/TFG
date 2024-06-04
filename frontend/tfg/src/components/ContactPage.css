@@ -1,0 +1,52 @@
+.contact-container {
+    background-color: #003049; /* Fondo oscuro */
+    color: #fff; /* Texto claro */
+    padding: 4rem;
+    height: 680px;
+    margin: 1rem auto; /* Centrado con margen */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para profundidad */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .contact-container h1 {
+    margin-bottom: 1rem; /* Espacio antes del formulario */
+  }
+  
+  .contact-container form {
+    width: 100%; /* Aprovechar todo el ancho del contenedor */
+  }
+  
+  .contact-container label {
+    display: flex;
+    flex-direction: column;
+    color: #fff; /* Texto claro para las etiquetas */
+  }
+  
+  .contact-container input,
+  .contact-container textarea {
+    padding: 0.8rem;
+    margin-top: 0.5rem; /* Espacio entre etiqueta y campo */
+    border-radius: 5px;
+    border: none;
+    outline: none;
+  }
+  
+  .contact-container button {
+    background-color: #ffc700; /* Botón amarillo */
+    color: #003049;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1rem;
+    border: none;
+  }
+  
+  .contact-container button:hover {
+    background-color: #e0b000; /* Cambio de color al pasar el ratón */
+  }
+  

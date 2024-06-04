@@ -1,0 +1,57 @@
+/* Register.css */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Altura completa de la ventana */
+  }
+  
+  .register-card {
+    background-color: #003049; /* Fondo oscuro */
+    color: #fff; /* Texto claro */
+    padding: 1rem;
+    margin: auto;
+    max-width: 400px; /* Ancho máximo ajustado para el formulario */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para profundidad */
+    width: 500px
+  }
+  
+  .register-card h2 {
+    font-size: 1.5rem;
+    font-weight: lighter;
+    text-transform: uppercase;
+    margin-bottom: 1rem; /* Espacio después del título */
+  }
+  
+  .form-group {
+    width: 100%; /* Asegura que el input ocupe todo el espacio disponible */
+    margin-bottom: 1rem; /* Espacio entre campos */
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 4px; /* Bordes redondeados para los inputs */
+    background-color: #f4f4f4; /* Contraste claro para el fondo del input */
+  }
+  
+  .btn-primary {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #007bff; /* Botón azul */
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3; /* Oscurecer el botón al pasar el ratón */
+  }
+  
+  .text-danger {
+    color: #dc3545; /* Color rojo para mensajes de error */
+  }
+  

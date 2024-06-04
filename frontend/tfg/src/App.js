@@ -23,6 +23,8 @@ import CatsPage from "./CatsPage.js";
 import CatPage from "./CatPage.js";
 import Paypal from "./Paypal.js"
 import CatsForm from "./CatsForm.js"
+import GridSection from "./GridSection.js";
+import ContactPage from "./ContactPage.js";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -242,7 +244,7 @@ function App() {
         <Header onToggleCart={toggleCart} isLoggedIn={isLoggedIn} onLogin={handleLogin} onLogout={handleLogout} />
         <main>
           <Routes>
-            <Route path="/" element={<CatCarousel images={carouselImages} />} />
+            <Route path="/" element={<GridSection />} />
             <Route
               path="/cats"
               element={<CatsPage />}
@@ -262,6 +264,7 @@ function App() {
             <Route path="/cat/:id" element={<CatPage />} />
             <Route path="/paypal" element={<Paypal />} />
             <Route path="/cats/form" element={<CatsForm />} />
+            <Route path="/contacto" element={<ContactPage />} />
           </Routes>
         </main>
         {/* Muestra condicionalmente ShoppingCart basado en isCartVisible */}

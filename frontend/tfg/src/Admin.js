@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import axiosInstance from "./Axios";
+import './components/Admin.css'
 
 function AdminPage() {
     const [isAdmin, setIsAdmin] = useState(true); 
@@ -21,12 +22,12 @@ function AdminPage() {
     }
 
     return (
-        <div className="card formulario-login text-center" style={{ maxWidth: "800px", margin: "auto" }}>
-            <h2 className="mb-4">Panel de Administrador</h2>
-            <div className="d-flex justify-content-between">
-                <Link to="/admin/cats" className="btn btn-primary">Administrar Gatos</Link>
-                <Link to="/admin/users" className="btn btn-primary">Administrar Usuarios</Link>
-                <Link to="/admin/cafes" className="btn btn-primary">Administrar Cafés</Link>
+        <div className="card-admin">
+            <h2 className="card-header">Panel de Administrador</h2>
+            <div className="card-buttons">
+                <Link to="/admin/cats" className="card-button">Administrar Gatos</Link>
+                <Link to="/admin/users" className="card-button">Administrar Usuarios</Link>
+                <Link to="/admin/cafes" className="card-button">Administrar Cafés</Link>
             </div>
         </div>
     );

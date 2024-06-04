@@ -1,0 +1,41 @@
+/* cafeCard.css */
+.cafe-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+  position: relative;
+  z-index: 2;
+}
+.cafe-card {
+  background-color: #003049;
+  color: white;
+  padding: 2rem;
+  margin: 2rem auto; /* Centrado con margen */
+  max-width: 400px; /* Ancho máximo */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para profundidad */
+  text-align: center;
+}
+
+.cafe-card img {
+  width: 300px; /* Ajusta a todo el ancho del card */
+  height: 300px;
+  border-radius: 5px; /* Bordes redondeados para la imagen */
+}
+
+.cafe-card button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+}
+
+.cafe-card button:hover {
+  background-color: #0056b3;
+}

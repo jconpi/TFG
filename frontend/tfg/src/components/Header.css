@@ -1,44 +1,53 @@
+/* src/Header.css */
+
 .header {
-  background: #333; /* Color de fondo */
-  color: white; /* Color de texto */
-  padding: 0.5rem 1rem; /* Espaciado interno */
-  display: flex; /* Utiliza flexbox para alinear elementos */
-  justify-content: space-between; /* Distribuye el espacio entre los elementos */
-  align-items: center; /* Centra los elementos verticalmente */
-}
-
-.header .logo {
-  font-weight: bold; /* O usa una imagen si tienes un logo */
-  font-size: 1.5rem; /* Ajusta el tamaño del logo */
-}
-
-.header nav ul {
-  list-style-type: none;
+  background-color: #003049; /* Fondo oscuro para el encabezado */
+  color: #fff; /* Texto claro */
+  padding: 1rem 2rem;
   display: flex;
-  gap: 1rem; /* Añade espacio entre los enlaces */
+  justify-content: space-between;
+  align-items: center;
 }
 
-.header nav ul li {
-  padding: 0 10px;
+.logo-image {
+  width: 40px; /* Ajusta el tamaño del logo según tus necesidades */
+  height: auto;
 }
 
-.header nav a {
-  color: white;
+.header-logo {
+  font-style: italic;
+  font-size: 1.5rem;
+  font-weight: lighter;
+  text-transform: uppercase;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+}
+
+.nav-links li a {
+  color: #fff;
   text-decoration: none;
+  font-weight: normal;
+  transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+  color: #f04e50; /* Color para el enlace activo */
+}
+
+.donate-button {
+  background-color: #ffc700; /* Color amarillo del botón */
+  color: #003049;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  border-radius: 5px;
   font-weight: bold;
+  transition: background-color 0.3s;
 }
 
-.header nav a:hover {
-  text-decoration: underline;
-}
-
-.header .cart-icon {
-  cursor: pointer;
-  font-size: 1.5rem; /* Ajusta según el tamaño que prefieras para el icono del carrito */
-}
-
-/* Si quieres un indicador de la cantidad, añade estilos para ello */
-.header .cart-icon span {
-  font-size: 1rem;
-  margin-left: 0.5rem;
+.donate-button:hover {
+  background-color: #e0b000; /* Color al pasar el ratón */
 }

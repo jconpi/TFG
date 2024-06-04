@@ -1,0 +1,40 @@
+.card-admin {
+    background-color: #003049; /* Fondo oscuro, como el header */
+    color: #fff; /* Texto claro */
+    padding: 1rem;
+    margin: auto;
+    max-width: 800px; /* Tamaño máximo del card */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para el card */
+  }
+  
+  .card-header {
+    background-color: #003049;
+    font-size: 1.5rem;
+    font-weight: lighter;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    text-align: center;
+    gap: 20px;
+  }
+  
+  .card-buttons {
+    gap: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .card-button {
+    background-color: #ffc700; /* Color amarillo del botón */
+    color: #003049;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  .card-button:hover {
+    background-color: #e0b000; /* Color al pasar el ratón */
+  }
+  

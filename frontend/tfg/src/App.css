@@ -1,3 +1,22 @@
+/* Variables de colores y fuentes */
+:root {
+  --primary-color: #f04e50; /* Ajusta esto según tu preferencia */
+  --primary-hover: #d9484a; /* Un tono más oscuro del color primario */
+  --secondary-color: #2ec4b6; /* Color secundario */
+  --background-color: #f4f4f4; /* Fondo general */
+  --text-color: #333; /* Color del texto */
+  --header-bg: #003049; /* Color del encabezado */
+  --header-text: #fff;
+  --font-family: "Arial", sans-serif;
+  --transition-duration: 0.3s;
+  --shadow-color: rgba(0, 0, 0, 0.1); /* Sombra suave */
+  --danger-color: #dc3545;
+  --danger-hover: #c82333;
+  --white-color: #fff;
+  --overlay-opacity: 0.5; /* Transparencia del overlay */
+  --overlay-color: #000; /* Color del overlay */
+}
+
 /* Reset de estilos para asegurar consistencia entre navegadores */
 * {
   margin: 0;
@@ -7,151 +26,115 @@
 
 body,
 html {
-  font-family: "Arial", sans-serif; /* O la fuente que prefieras */
+  font-family: var(--font-family);
+  background: url("./images/gatito.webp") no-repeat center center fixed;
+  background-size: cover;
+  background-color: var(--background-color); /* Para un fallback */
+  color: var(--text-color);
+  line-height: 1.6;
+  position: relative;
+  min-height: 100vh;
 }
 
-/* Estilos generales */
+/* Overlay semi-transparente sobre el fondo */
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--overlay-color);
+  opacity: var(--overlay-opacity);
+  z-index: 1;
+}
+
 .app {
-  display: flex;
+  position: relative;
+  z-index: 2;
   flex-direction: column;
   min-height: 100vh;
 }
 
 main {
   flex: 1;
-  padding: 20px; /* Ajusta el padding según necesites */
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+  position: relative;
+  z-index: 2; /* Por encima del overlay */
 }
 
-.header {
-  background: #333; /* Color de fondo */
-  color: white; /* Color de texto */
-  padding: 0.5rem 1rem; /* Espaciado interno */
-  display: flex; /* Utiliza flexbox para alinear elementos */
-  justify-content: space-between; /* Distribuye el espacio entre los elementos */
-  align-items: center; /* Centra los elementos verticalmente */
-}
 
 .header .logo {
-  font-weight: bold; /* O usa una imagen si tienes un logo */
-  font-size: 1.5rem; /* Ajusta el tamaño del logo */
+  font-weight: bold;
+  font-size: 1.75rem;
 }
 
 .header nav ul {
-  list-style-type: none;
+  list-style: none;
   display: flex;
-  gap: 1rem; /* Añade espacio entre los enlaces */
+  gap: 1.5rem;
 }
 
 .header nav ul li {
-  padding: 0 10px;
+  padding: 0 0.5rem;
 }
 
 .header nav a {
-  color: white;
-  text-decoration: none;
+  color: var(--header-text);
   font-weight: bold;
+  transition: color var(--transition-duration);
 }
 
 .header nav a:hover {
-  text-decoration: underline;
+  color: var(--primary-color);
 }
 
 .header .cart-icon {
-  cursor: pointer;
-  font-size: 1.5rem; /* Ajusta según el tamaño que prefieras para el icono del carrito */
+  font-size: 1.75rem;
+  position: relative;
 }
 
-/* Si quieres un indicador de la cantidad, añade estilos para ello */
 .header .cart-icon span {
-  font-size: 1rem;
-  margin-left: 0.5rem;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: var(--danger-color);
+  color: var(--header-text);
+  font-size: 0.8rem;
+  padding: 2px 6px;
+  border-radius: 50%;
 }
 
-/* Estilos para el Footer */
 footer {
-  background: #333;
-  color: white;
-  padding: 10px 20px;
+  background: 234, 234, 232;
+  color: #254151;
+  padding: 1rem 15rem;
   text-align: center;
+  position: relative;
+  z-index: 2;
 }
 
-/* Estilos para el carrusel */
 .cat-carousel {
-  margin: 20px auto;
-  max-width: 600px; /* Ajusta esto según el ancho deseado para tu carrusel */
+  margin: 2rem auto;
+  max-width: 800px;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px var(--shadow-color);
+  position: relative;
+  z-index: 2;
 }
 
-/* Estilos para la lista de gatos (CatList) */
-.cat-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* Centra los elementos en la línea horizontal */
-  align-items: center; /* Centra los elementos en la línea vertical (si tienen diferentes alturas) */
-  gap: 20px; /* Espacio entre tarjetas */
-  padding: 20px; /* Espacio interior del contenedor de la lista */
-  margin: auto; /* Alineación automática del bloque de la lista en el centro */
-  max-width: 1200px; /* Max-width para controlar el ancho del contenedor de la lista */
-}
-
-/* Estilos para las tarjetas de gatos (CatCard) */
-.cat-card {
-  height: 250px;
-  width: 200px; /* Ancho de las tarjetas */
-  border: 1px solid #ddd; /* Borde de las tarjetas */
-  border-radius: 5px; /* Esquinas redondeadas */
-  overflow: hidden; /* Asegura que el contenido no desborde */
-  text-align: center; /* Texto centrado dentro de la tarjeta */
-  background-color: #fff; /* Color de fondo de la tarjeta */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
-  display: flex; /* Display flex para alinear el contenido de las tarjetas */
-  flex-direction: column; /* Organiza el contenido de la tarjeta en columnas */
-  justify-content: space-between; /* Distribuye el espacio del contenido interior */
-}
-
-.cat-card img {
-  width: 100%; /* La imagen ocupa todo el ancho disponible */
-  height: auto; /* La altura es automática para mantener la proporción */
-}
-
-.cat-card h3 {
-  margin-top: 10px; /* Espacio en la parte superior del título */
-  margin-bottom: 0; /* Remueve el margen inferior del título si es necesario */
-}
-
-.cat-card p {
-  padding: 0 10px; /* Espacio interior para el párrafo */
-  font-size: 0.9em; /* Tamaño del texto del párrafo */
-}
-
-.cat-card button {
-  background-color: #007bff; /* Color de fondo del botón */
-  color: white; /* Color del texto del botón */
-  padding: 10px 20px; /* Espaciado interior del botón */
-  border: none; /* Sin borde */
-  cursor: pointer; /* Estilo del cursor al pasar el mouse */
-  width: 100%; /* El botón ocupa todo el ancho disponible */
-  font-weight: bold; /* Texto en negrita */
-  border-bottom-left-radius: 5px; /* Redondea las esquinas inferiores izquierdas */
-  border-bottom-right-radius: 5px; /* Redondea las esquinas inferiores derechas */
-}
-
-.cat-card button:hover {
-  background-color: #0056b3; /* Color de fondo del botón al pasar el mouse */
-}
-
-/* Estilos para el carrito de compras (ShoppingCart) */
 .shopping-cart {
   position: fixed;
   right: 20px;
   bottom: 50px;
-  width: 250px;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  padding: 20px;
+  width: 280px;
+  background-color: var(--white-color);
+  box-shadow: 0 4px 8px var(--shadow-color);
+  border-radius: 10px;
+  padding: 1.5rem;
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -160,10 +143,9 @@ footer {
 }
 
 .shopping-cart h2 {
-  color: #333;
-  font-size: 24px;
-  margin-bottom: 20px;
-  font-weight: 500;
+  color: var(--text-color);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .shopping-cart ul {
@@ -173,65 +155,128 @@ footer {
 }
 
 .shopping-cart li {
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 3px solid #eee; /* Añade separación visual entre ítems */
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .shopping-cart li:last-child {
-  border-bottom: none; /* Elimina la línea del último ítem */
+  border-bottom: none;
 }
 
 .shopping-cart button {
-  background-color: #007bff;
+  background-color: var(--primary-color);
   border: none;
-  padding: 10px 15px;
+  padding: 0.5rem 1rem;
   border-radius: 5px;
-  cursor: pointer;
   color: #ffffff;
-  transition: background-color 0.3s ease;
 }
 
 .shopping-cart button:hover {
-  background-color: #0056b3;
+  background-color: var(--primary-hover);
 }
 
-/* Añade un botón para cerrar el carrito (opcional) */
 .close-cart {
   position: absolute;
   top: 10px;
   right: 10px;
   background: none;
   border: none;
-  cursor: pointer;
-  font-size: 15px;
+  font-size: 1rem;
 }
 
-/* Añade estilos para el botón de 'Limpiar Carrito' */
 .clear-cart {
-  background-color: #dc3545;
+  background-color: var(--danger-color);
   color: #ffffff;
-  padding: 10px 15px;
+  padding: 0.75rem 1rem;
   border-radius: 5px;
   border: none;
-  display: block;
   width: 100%;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 1rem;
 }
 
 .clear-cart:hover {
-  background-color: #c82333;
+  background-color: var(--danger-hover);
 }
 
-/* Añade estilos responsivos si es necesario */
+
+
+.card-link:hover {
+background-color: #e0b000; /* Cambio de color al pasar el ratón */
+}
+
+
 @media (max-width: 768px) {
-  header nav ul {
+  .header nav ul {
     flex-direction: column;
   }
 
-  /* Otros estilos responsivos */
+  .header {
+    flex-wrap: wrap;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .cat-list {
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  
+
+  .shopping-cart {
+    width: 90%;
+    right: 5%;
+    bottom: 10%;
+  }
 }
+
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Se ajusta el tamaño mínimo y máximo de cada columna */
+  gap: 20px; /* Espacio entre los elementos */
+}
+
+
+
+.card {
+  background-color: black;
+  padding: 2rem;
+  margin: 2rem auto; /* Centrado con margen */
+  max-width: 400px; /* Ancho máximo */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para profundidad */
+}
+
+.card-image {
+width: 250px; /* Ajusta a todo el ancho del card */
+height: 300px;
+border-radius: 5px; /* Bordes redondeados para la imagen */
+}
+
+.card-title {
+font-size: 2rem; /* Tamaño del título */
+margin-top: 1rem; /* Espacio después de la imagen */
+}
+
+.card-text {
+font-size: 1.2rem; /* Tamaño del texto */
+margin-top: 0.5rem; /* Espaciado entre textos */
+}
+
+.card-link {
+background-color: #ffc700; /* Botón amarillo */
+color: #003049;
+padding: 0.75rem 1.5rem;
+text-decoration: none;
+border-radius: 5px;
+font-weight: bold;
+display: inline-block; /* Hace que el enlace sea como un botón */
+margin-top: 1rem; /* Espacio antes del botón */
+}
+
+

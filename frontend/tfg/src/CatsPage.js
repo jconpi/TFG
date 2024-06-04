@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+
 import { Link } from "react-router-dom";
 import axiosInstance from "./Axios";
-
+import './components/CatsPage.css'
 const API = process.env.REACT_APP_API;
 
 export const CatsPage = () => {
@@ -32,14 +33,13 @@ export const CatsPage = () => {
 
 
     return (
-        <div className="row">
+        <div className="card-grid">
         {cats.map((cat, index) => (
-            <div key={cat.id}>
-                <img src={require(`.${cat.image_url}`)} alt={cat.name} />
-                <h1>{cat.name}</h1>
-                <h4>Edad: {cat.age}</h4>
-                <p>{cat.description}</p>
-                <Link className="btn btn-secondary btn-block" onClick={e => setCat(cat.cat_id)} to={`/cat/${cat.cat_id}`}>
+            <div className="cat-card">
+                <img className="card-image" src={require(`.${cat.image_url}`)} alt={cat.name} />
+                <h1 className="card-title">{cat.name}</h1>
+                <h4 className="card-text">Edad: {cat.age}</h4>
+                <Link className="card-link" onClick={e => setCat(cat.cat_id)} to={`/cat/${cat.cat_id}`}>
                     Más Info
                 </Link>
             </div>

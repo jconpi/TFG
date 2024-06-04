@@ -75,7 +75,7 @@ export const AdminUsers = () => {
                     password,
                     admin
                 });
-                console.log(res.data);
+                setError(res.data.error);
                 setEditing(false);
                 setID('');
             } catch (error) {
@@ -106,6 +106,7 @@ export const AdminUsers = () => {
         try {
             const res = await axiosInstance.get(`/admin/user/${id}`);
             const data = res.data;
+            console.log(data)
             setEditing(true);
             setID(data._id);
             setName(data.name);
@@ -113,7 +114,7 @@ export const AdminUsers = () => {
             const adminValue = data.admin === true ? true : false;
             setAdmin(adminValue)
         } catch (error) {
-            console.error("Error editing user:", error);
+            console.error("Error editing user:", error);    
         }
     }
 

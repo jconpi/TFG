@@ -32,7 +32,6 @@ export const CatsForm = () => {
 
     return (
         <div className="row">
-        {cats.map((cat, index) => (
             <div >
                 <h2>Formulario de Adopción</h2>
                 <form action="/submit_adopcion" method="post">
@@ -69,7 +68,6 @@ export const CatsForm = () => {
                     </div>
                 </form>
             </div>
-        ))}
         </div>
     )
 }
