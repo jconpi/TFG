@@ -26,9 +26,11 @@ export const CatPage = () => {
         getCat();
     }, []);
 
-    const setCatID = async (id) => {
+    const handleClick = async (cat) => {
         try {
-            localStorage.setItem('cat_id', id);
+            console.log(cat)
+            localStorage.setItem('cat_id', cat.cat_id);
+            localStorage.setItem('cat_name', cat.name);
         } catch (error) {
             console.error("Error:", error)
         }
@@ -36,24 +38,24 @@ export const CatPage = () => {
 
 
     return (
-        <div className="row">
-            {loading ? (
-                <div>Loading...</div>
-            ) : (
-                <>
-                    <img
-                        src={require(`.${cat.image_url}`)}
-                        alt={cat.name}
-                        onLoad={() => setLoading(false)} // Hide loading indicator once image is loaded
-                    />
-                    <h1>{cat.name}</h1>
-                    <h4>Edad: {cat.age}</h4>
-                    <p>{cat.description}</p>
-                    <Link className="btn btn-secondary btn-block" onClick={e => setCat(cat.cat_id)} to={`/cats/form`}>
-                        Adóptame
-                    </Link>
-                </>
-            )}
+        <div className="cat-card">
+        {loading ? (
+            <div>Loading...</div>
+        ) : (
+            <>
+                <img
+                    src={require(`.${cat.image_url}`)}
+                    alt={cat.name}
+                    onLoad={() => setLoading(false)}
+                />
+                <h1>{cat.name}</h1>
+                <h4>Edad: {cat.age}</h4>
+                <p>{cat.description}</p>
+                <Link className="btn btn-secondary btn-block" onClick={() => handleClick(cat)} to={`/cats/form`}>
+                    Adóptame
+                </Link>
+            </>
+        )}
         </div>
     );
 }

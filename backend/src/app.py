@@ -20,6 +20,7 @@ app.static_folder = '/home/jeremy/Documents/TFG/frontend/tfg/src/components'
 db = mongo.db.users
 cat_db = mongo.db.cats
 cafe_db = mongo.db.cafe
+adoptions_db = mongo.db.adoptions
 
 @app.route('/static/<path:filename>')
 def serve_static(filename):
@@ -43,7 +44,7 @@ def register():
         return jsonify({'error': 'Todos los campos son requeridos'}), 400
     
     if not data['name'] or not data['email'] or not data['password']:
-        return jsonify({'error': 'Todos los campos debem ser rellenados.'}), 400
+        return jsonify({'error': 'Todos los campos deben ser rellenados.'}), 400
     
     if len(data['password']) < 8:
         return jsonify({'error': 'La contraseña debe ser de almenos 8 caractéres de largo.'}), 400
@@ -181,14 +182,26 @@ def deleteUser(id):
 @app.route('/admin/users/<id>', methods=['PUT'])
 def updateUser(id):
     new_password = request.json['password']
-    hashed_password = generate_password_hash(new_password)
-    db.update_one({'_id': ObjectId(id)}, {'$set': {
-        'name': request.json['name'],
-        'email': request.json['email'],
-        'password': hashed_password,
-        'admin': request.json['admin']
-    }})
-    return jsonify({'msg': 'User Updated'})
+    if len(new_password) > 0:
+        if len(new_password) < 8:
+            return jsonify({'error': 'La contraseña debe ser de almenos 8 caractéres de largo.'})
+        else:
+            hashed_password = generate_password_hash(new_password)
+            db.update_one({'_id': ObjectId(id)}, {'$set': {
+                'name': request.json['name'],
+                'email': request.json['email'],
+                'password': hashed_password,
+                'admin': request.json['admin']
+            }})
+            return jsonify({'msg': 'User Updated'})
+    else:
+            hashed_password = generate_password_hash(new_password)
+            db.update_one({'_id': ObjectId(id)}, {'$set': {
+                'name': request.json['name'],
+                'email': request.json['email'],
+                'admin': request.json['admin']
+            }})
+            return jsonify({'msg': 'User Updated'})
 
 @app.route('/admin/users', methods=['POST'])
 def createUser():
@@ -350,6 +363,7 @@ def set_cat(id):
 
     return jsonify({
         '_id': str(ObjectId(cat['_id'])),
+        'cat_id': cat['cat_id'],
         'image_url': image_url,
         'name': cat['name'],
         'description': cat['description'],
@@ -455,6 +469,46 @@ def get_coffees():
 
     return jsonify(cafes)
 
+@app.route('/cats/form', methods=['POST'])
+def set_cats_form():
+    data = request.json
+
+    new_adoption = {
+        'user_name': data['userName'],
+        'user_mail': data['userMail'],
+        'user_age': data['userAge'],
+        'user_phone': data['userPhone'],
+        'user_reason': data['userReason'],
+        'cat_id': data['catID'],
+        'cat_name': data['catName'],
+    }
+    adoptions_db.insert_one(new_adoption)
+    
+    return jsonify({'message': 'Adoption registered successfully'})
+
+@app.route('/admin/adoptions', methods=['GET'])
+def get_cats_adoptions():
+    adoptions = []  
+    for doc in adoptions_db.find():
+        adoption_id = str(ObjectId(doc['_id']))        
+        adoptions.append({
+            '_id': adoption_id,
+            'user_name': doc['user_name'],
+            'user_mail': doc['user_mail'],
+            'user_age': doc['user_age'],
+            'user_phone': doc['user_phone'],
+            'user_reason': doc['user_reason'],
+            'cat_id': doc['cat_id'],
+            'cat_name': doc['cat_name'],
+        })
+
+    return jsonify(adoptions)
+
+@app.route('/admin/adoption/<id>', methods=['DELETE'])
+@admin_required
+def delete_adoptions(id):
+    adoptions_db.delete_one({'_id': ObjectId(id)})
+    return jsonify({'msg': 'Adoption deleted'})
 
 if __name__ == "__main__":
     app.run(debug=True)

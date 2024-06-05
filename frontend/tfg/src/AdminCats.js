@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import axiosInstance from "./Axios";
 
 const API = process.env.REACT_APP_API;
@@ -132,6 +132,9 @@ export const AdminCats = () => {
     return (
         <div className="row">
             <div className="col-md-4">
+                <div>
+                    <Link to="/admin/adoptions" className="card-button">Adopciones</Link>
+                </div>
                 <form onSubmit={handleSubmit} className="card card-body" encType="multipart/form-data">
                     {error && <p className="text-center mb-4" style={{ color: "red" }}>{error}</p>}
                     <div className="form-group">

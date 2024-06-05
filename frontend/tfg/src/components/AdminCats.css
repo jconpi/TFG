@@ -1,0 +1,50 @@
+/* AdoptionsList.css */
+.cats-list-container {
+    background-color: #003049;
+    color: white;
+    padding: 2rem;
+    margin: 2rem auto; /* Centrado con margen */
+    max-width: 1200px; /* Ancho máximo */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para profundidad */
+    text-align: left;
+}
+
+.cats-list-container h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.cats-list-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cats-list-container th,
+.cats-list-container td {
+    padding: 12px;
+    border: 1px solid #ffc700;
+    text-align: left;
+}
+
+.cats-list-container th {
+    background-color: #ffc700;
+    color: #333;
+}
+
+.cats-list-container tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.cats-list-container button {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.3rem;
+    cursor: pointer;
+}
+
+.cats-list-container button:hover {
+    background-color: #e63946;
+}

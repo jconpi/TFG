@@ -25,6 +25,7 @@ import Paypal from "./Paypal.js"
 import CatsForm from "./CatsForm.js"
 import GridSection from "./GridSection.js";
 import ContactPage from "./ContactPage.js";
+import AdminAdoptions from "./AdminAdoptions.js";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -265,6 +266,7 @@ function App() {
             <Route path="/paypal" element={<Paypal />} />
             <Route path="/cats/form" element={<CatsForm />} />
             <Route path="/contacto" element={<ContactPage />} />
+            <Route path="/admin/adoptions" element={<AdminAdoptions />} />
           </Routes>
         </main>
         {/* Muestra condicionalmente ShoppingCart basado en isCartVisible */}

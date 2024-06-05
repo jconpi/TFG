@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Navigate, Link } from "react-router-dom";
 import axiosInstance from "./Axios";
+import './components/MyProfile.css'
 
 function MyProfile() {
     const [userData, setUserData] = useState(null);
@@ -61,14 +62,13 @@ function MyProfile() {
 
     return (
         <div className="d-flex justify-content-center align-items-center min-vh-100">
-            <div className="profile-container">
-                <div className="card formulario-login">
+            <div className="profile-div">
+                <div className="cart">
                     <div className="card-body p-4">
                         <h2 className="text-center mb-4">Perfil de {userData && userData.name}</h2>
                         {userData && (
                             <div className="d-flex justify-content-center">
                                 <p>Email: {userData.email}</p>
-                                {/* Puedes mostrar más detalles del perfil aquí */}
                             </div>
                         )}
                         <div className="change-password">
@@ -88,9 +88,9 @@ function MyProfile() {
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                             />
                             {passwordError && <p className="text-danger">{passwordError}</p>}
-                            <div className="d-flex justify-content-sm-between">
-                                <button className="btn btn-primary" onClick={handleChangePassword}>Guardar contraseña</button>
-                                {userIsAdmin && <Link className="btn btn-secondary btn-block" to="/admin">Admin</Link>}
+                            <div>
+                                <button className="btn-primario" onClick={handleChangePassword}>Guardar contraseña</button>
+                                {userIsAdmin && <Link className="btn-secundario" to="/admin">Admin</Link>}
                             </div>
                         </div>
                     </div>

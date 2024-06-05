@@ -16,7 +16,6 @@ const Header = ({ onToggleCart, cartItemCount, isLoggedIn, onLogin, onLogout }) 
           <li><Link to="/">Inicio</Link></li>
           <li><Link to="/cats">Gatos</Link></li>
           <li><Link to="/cafes">Cafés</Link></li>
-          <li><Link to="/contacto">Contacto</Link></li>
           {isLoggedIn ? (
             <>
               <li><Link to="/my-profile"><FontAwesomeIcon icon={faUser}/></Link></li>
@@ -29,10 +28,7 @@ const Header = ({ onToggleCart, cartItemCount, isLoggedIn, onLogin, onLogout }) 
       </nav>
       <div className="header-actions">
         <div className="divider"></div>
-        <a href="/donate" className="donate-button">COLABORA</a>
-      </div>
-      <div className="cart-icon" onClick={onToggleCart}>
-        🛒 {cartItemCount > 0 && <span>({cartItemCount})</span>}
+        <a href="https://paypal.me/nagc92" className="donate-button">COLABORA</a>
       </div>
     </header>
   );
